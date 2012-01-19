@@ -1,0 +1,8 @@
+Relationships between common formats.
+
+A .pem file is simply a Base64-encoded DER certificate enclosed between
+"-----BEGIN CERTIFICATE-----" and "-----END CERTIFICATE-----" lines.
+
+DER is an encoding for certificates.
+
+http://www.gtopia.org/blog/2010/02/der-vs-crt-vs-cer-vs-pem-certificates/

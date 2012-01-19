@@ -1,0 +1,16 @@
+<Schema xmlns="http://ns.nuke24.net/TBB/">
+	<format>
+		(after 24 byte TBB header)
+		 20 bytes - SHA-1 sum of public key
+		 20 bytes - SHA-1 sum of content being signed
+		remaining - signature data (length depends on key size)
+	</format>
+	<prototype>
+		<Signature xmlns="http://ns.nuke24.net/Crypto/">
+			<keyEncoding>DER</keyEncoding>
+			<keyHashAlgorithm>SHA1</keyHashAlgorithm>
+			<contentHashAlgorithm>SHA1</contentHashAlgorithm>
+			<signatureAlgorithm>SHA1withRSA</signatureAlgorithm>
+		</Signature>
+	</prototype>
+</Schema>
