@@ -52,6 +52,13 @@ public class SignedDataGenerator
 		
 		byte[] content = new byte[r.nextInt(4096)];
 		r.nextBytes(content);
+		for( int i=0; i<content.length; ++i ) {
+			if( i % 76 == 75 ) {
+				content[i] = '\n';
+			} else {
+				content[i] = (byte)((content[i] & 0x3F) + 32);
+			}
+		}
 		
 		KeyPair keyPair = generateKeyPair();
 		
@@ -71,6 +78,11 @@ public class SignedDataGenerator
 		writeFile( "sandbox/public-key", encodedKey );
 		writeFile( "sandbox/content", content );
 		writeFile( "sandbox/signature-data", sigData );
-		writeFile( "sandbox/signature", ccig.encode() );
+		writeFile( "sandbox/signature", ccig.tbbEncode() );
+		
+		System.out.println("Content-Signature: "+ccig.toBurkeContentSignature());
+		System.out.println("Content-Length: "+content.length);
+		System.out.println();
+		System.out.write(content);
 	}
 }

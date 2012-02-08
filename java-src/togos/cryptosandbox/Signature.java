@@ -15,7 +15,7 @@ public class Signature
 	public final byte[] keyHash;
 	/** SHA-1 sum of content to be signed (20 bytes) */
 	public final byte[] contentHash;
-	/** 1024 bits of raw signature data (128 bytes) */
+	/** raw signature data (size = key size) */
 	public final byte[] signatureData;
 	
 	public Signature( byte[] keyHash, byte[] contentHash, byte[] sigData ) {
@@ -47,7 +47,7 @@ public class Signature
 		return true;
 	}
 	
-	public static Signature decode( byte[] buf, int offset, int length ) throws IOException {
+	public static Signature tbbDecode( byte[] buf, int offset, int length ) throws IOException {
 		if( length < 24 + 20 + 20 + 64 ) { // 64 = 512 bit signature (let's say that's the minimum)
 			throw new IOException("Signature too short");
 		}
@@ -63,11 +63,11 @@ public class Signature
 		}
 	}
 	
-	public int getEncodedSize() {
+	public int getTbbEncodedSize() {
 		return 24 + 20 + 20 + signatureData.length;
 	}
 	
-	public void encode( byte[] dest, int offset ) {
+	public void tbbEncode( byte[] dest, int offset ) {
 		copy( TBB_MAGIC, 0, dest, offset );
 		copy( SCHEMA_HASH, 0, dest, offset+4 );
 		copy( keyHash, 0, dest, offset+24 );
@@ -75,9 +75,9 @@ public class Signature
 		copy( signatureData, 0, dest, offset+64 );
 	}
 	
-	public byte[] encode() {
-		byte[] dest = new byte[getEncodedSize()];
-		encode(dest,0);
+	public byte[] tbbEncode() {
+		byte[] dest = new byte[getTbbEncodedSize()];
+		tbbEncode(dest,0);
 		return dest;
 	}
 	
@@ -86,5 +86,14 @@ public class Signature
 			"public key = <urn:sha1:"+Base32.encode(keyHash)+">\n"+
 			"content    = <urn:sha1:"+Base32.encode(contentHash)+">\n"+
 			"signature  = 0x"+Base16.encode(signatureData, Base16.LOWER)+"\n";
+	}
+	
+	/**
+	 * See http://tools.ietf.org/html/draft-burke-content-signature-00
+	 */
+	public String toBurkeContentSignature() {
+		return "signature="+Base16.encode(signatureData, Base16.LOWER)+"; "+
+		        "signer=urn:sha1:"+Base32.encode(keyHash)+"; "+
+		        "algorithm=SHA1withRSA";
 	}
 }

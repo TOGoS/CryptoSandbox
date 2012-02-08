@@ -1,0 +1,5 @@
+This page describes a way to encode signature + signer in an HTTP header:
+http://bill.burkecentral.com/2011/02/10/proposed-http-digital-signature-protocol-and-api/
+http://tools.ietf.org/html/draft-burke-content-signature-00
+
+Content-Signature: signature=<hex-encoded signature data>; signer=<URN of signer certificate>; algorithm=SHA1withRSA

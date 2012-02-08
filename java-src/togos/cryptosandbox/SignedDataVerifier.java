@@ -65,7 +65,7 @@ public class SignedDataVerifier
 		byte[] ccigEnc  = readFile("sandbox/signature");
 		byte[] content = readFile("sandbox/content");
 		
-		Signature ccig = Signature.decode(ccigEnc, 0, ccigEnc.length);
+		Signature ccig = Signature.tbbDecode(ccigEnc, 0, ccigEnc.length);
 		
 		if( !equals(sigData, ccig.signatureData) ) {
 			System.err.println("Warning: Mismatch in saved signature data.");
