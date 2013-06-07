@@ -16,7 +16,6 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import sun.misc.BASE64Decoder;
 import togos.cryptosandbox.util.FileUtil;
 
 public class Signer
@@ -32,6 +31,7 @@ public class Signer
 	static final Pattern PEM_PATTERN = Pattern.compile("-+BEGIN RSA PRIVATE KEY-+([^-]+)-+END RSA PRIVATE KEY-+", Pattern.DOTALL|Pattern.MULTILINE);
 	
 	static PrivateKey loadPrivateKey( byte[] data ) throws InvalidKeySpecException {
+		/*
 		if( looksPemEncoded(data) ) {
 			String s;
 			try {
@@ -48,6 +48,7 @@ public class Signer
 				throw new RuntimeException(e);
 			}
 		}
+		*/
 		KeySpec ks = new PKCS8EncodedKeySpec(data);
 		try {
 			return KeyFactory.getInstance("RSA").generatePrivate(ks);
