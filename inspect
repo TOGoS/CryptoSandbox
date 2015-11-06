@@ -1,0 +1,42 @@
+#!/usr/bin/ruby
+
+require 'pp'
+require 'openssl'
+
+files = []
+
+args = $*.clone
+while arg = args.shift
+  case arg
+  when /^[^-]/
+    files << arg
+  else
+    STDERR.puts "Unrecognized option: #{arg}"
+    exit 1
+  end
+end
+
+def pretty_inspect( structure )
+  case structure
+  when OpenSSL::ASN1::Null
+    return "null"
+  when OpenSSL::ASN1::Integer
+    return "Integer:"+structure.value.inspect
+  when OpenSSL::ASN1::ObjectId
+    return "ObjectID:"+structure.value.inspect
+  when OpenSSL::ASN1::BitString
+    return "BitString (#{structure.value.length} bytes)"
+  when OpenSSL::ASN1::OctetString
+    return "OctetString (#{structure.value.length} bytes)"
+  when OpenSSL::ASN1::Sequence
+    return "Sequence[]" if structure.value.length == 0
+    return "Sequence[\n  "+structure.value.collect { |i| pretty_inspect(i).gsub /\n/, "\n  " }.join(",\n  ")+"\n]"
+  else
+    return structure.inspect.gsub /\n/, "\n  "
+  end
+end
+
+for f in files
+  structure = OpenSSL::ASN1.decode(File.read(f))
+  puts pretty_inspect( structure )
+end
