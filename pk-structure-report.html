@@ -1,13 +1,34 @@
-make[1]: Entering directory `/home/stevens/proj/CryptoSandbox'
-make[1]: `temp/php-pubkey' is up to date.
-make[1]: Leaving directory `/home/stevens/proj/CryptoSandbox'
-<p>PHP Public Key (2040-bit key)</p>
+<p>PHP Public Key (2048-bit public key)</p>
 
-<pre>Sequence[
+<blockquote class="public-key"><pre><code>Sequence[
   Sequence[
-    ObjectID:&quot;rsaEncryption&quot;,
+    ObjectID:"rsaEncryption",
     null
   ],
   BitString (270 bytes)
 ]
-</pre>
+</code></pre></blockquote>
+
+<p>Java Public Key (2048-bit public key)</p>
+
+<blockquote class="public-key"><pre><code>Sequence[
+  Sequence[
+    ObjectID:"rsaEncryption",
+    null
+  ],
+  BitString (270 bytes)
+]
+</code></pre></blockquote>
+
+<p>Java Private Key (2048-bit private key)</p>
+
+<blockquote class="private-key"><pre><code>Sequence[
+  Integer:0,
+  Sequence[
+    ObjectID:"rsaEncryption",
+    null
+  ],
+  OctetString (1192 bytes)
+]
+</code></pre></blockquote>
+
